@@ -9,15 +9,8 @@ on:
       - "*"
 
 jobs:
-  build:
-    strategy:
-      matrix:
-        target:
-          - x86_64-unknown-linux-gnu
-          - x86_64-pc-windows-msvc
-          - x86_64-apple-darwin
-          - aarch64-apple-darwin
-    name: Build ${{ matrix.target }}
+  release:
+    name: Build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -25,15 +18,8 @@ jobs:
         with:
           deno-version: v1.x
       - run: |
-          deno compile --target ${{ matrix.target }} -o ${{ matrix.target }} main.ts
-      - uses: actions/upload-artifact@v3
-        with:
-          name: ${{ matrix.target }}
-          path: ${{ matrix.target }}
-  release:
-    name: Relaese all
-    runs-on: ubuntu-latest
-    needs: [build]
-    steps:
-      - uses: actions/download-artifact@v3
-      - run: ls -la
+          mkdir dist
+          for target in (x86_64-unknown-linux-gnu x86_64-pc-windows-msvc x86_64-apple-darwin aarch64-apple-darwin); do
+            deno compile --target $target -o dist/$target main.ts
+          done
+      - run: ls -la dist
