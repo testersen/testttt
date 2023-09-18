@@ -24,3 +24,5 @@ jobs:
           done
       - run: |
           gh release create ${{ github.ref_name }} bin/*
+        env:
+          GH_TOKEN: ${{ github.token }}
