@@ -3,6 +3,8 @@
 name: On tag
 on:
   push:
+    branches:
+      - "*"
     tags:
       - "*"
 
@@ -31,6 +33,7 @@ jobs:
   release:
     name: Relaese all
     runs-on: ubuntu-latest
+    needs: [build]
     steps:
       - uses: actions/download-artifact@v3
       - run: ls -la
