@@ -3,8 +3,6 @@
 name: On tag
 on:
   push:
-    branches:
-      - "*"
     tags:
       - "*"
 
@@ -24,4 +22,5 @@ jobs:
             echo Compiling $target
             deno compile --target $target -o dist/$target main.ts
           done
-      - run: ls -la dist
+      - run: |
+          gh release create ${{ github.ref_name }} bin/*
