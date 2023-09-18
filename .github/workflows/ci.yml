@@ -23,6 +23,6 @@ jobs:
             deno compile --target $target -o dist/$target main.ts
           done
       - run: |
-          gh release create ${{ github.ref_name }} bin/*
+          gh release create ${{ github.ref_name }} dist/*
         env:
           GH_TOKEN: ${{ github.token }}
